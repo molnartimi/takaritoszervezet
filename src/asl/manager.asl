@@ -59,8 +59,7 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 /* Plans */
 
 // háromnegyed 8-kor kezdjük a számítást
-+!start : true <- 
-				  .print("1. NAP"); 
++!start : true <- .print("1. NAP"); 
 				  !work(1,7.75).
 
 +!work(N,T) : T<16 <- .print(T); 
@@ -147,13 +146,13 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 +!koszosodik(N,A,T) : oravan(N,A,T,B) <- ?oravan(N,A,T,B);
 									     ?felmosasota(A,X); -felmosasota(A,X); +felmosasota(A,X+B);
 									     ?kukauritesota(A,Y); -kukauritesota(A,Y); +kukauritesota(A,Y+B);
-									     //?folyosonfelmosasota(F); !folyosokoszosodik(N,F,B).
-									     ?folyosonfelmosasota(F); -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
+									     ?folyosonfelmosasota(F); !folyosokoszosodik(N,F,B).
+									     //?folyosonfelmosasota(F); -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
 
 +!koszosodik(N,A,T) : not oravan(N,A,T,B).
 
 +!folyosokoszosodik(N,F,B) : esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+2*B).
-+!folyosokososzodik(N,F,B) : not esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
-+!folyosokososzodik(N,F,B) : true.
++!folyosokoszosodik(N,F,B) : not esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
++!folyosokoszosodik(N,F,B) : true.
 								   
 

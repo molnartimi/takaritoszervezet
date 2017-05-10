@@ -10,7 +10,7 @@ public class EpuletModel extends GridWorldModel{
 	
 	protected EpuletModel(int arg0, int arg1, int arg2) {
 		super(arg0, arg1, arg2);
-		createTermek();
+		//createTermek();
 	}
 	
 	synchronized public static EpuletModel create() {
@@ -20,7 +20,7 @@ public class EpuletModel extends GridWorldModel{
         return model;
     }
 	
-	private static void createTermek() {
+	/*private static void createTermek() {
 		ArrayList<Ora> ora1 = new ArrayList<Ora>();
 		ora1.add(new Ora(1,8.25,300));
 		ora1.add(new Ora(1,10.25,100));
@@ -43,7 +43,7 @@ public class EpuletModel extends GridWorldModel{
 		ora1.add(new Ora(2,12.25,60));
 		ora1.add(new Ora(3,10.25,30));
 		termek.add(new Terem("IB26",ora3));
-	}
+	}*/
 
 	public static EpuletModel get() {
         return model;
@@ -56,4 +56,10 @@ public class EpuletModel extends GridWorldModel{
 	public static ArrayList<Terem> getTermek() {
 		return termek;
 	}
+
+	/*public void addPercepts() {
+		for(Terem t: termek){
+			t.addPercepts();
+		}
+	}*/
 }

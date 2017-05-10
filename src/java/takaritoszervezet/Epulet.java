@@ -22,26 +22,22 @@ public class Epulet extends Environment {
     	EpuletModel.create();
 		em = EpuletModel.get();
 		
-		initHiedelmek();
+		//initHiedelmek();
 		
 		view = new EpuletView(em, "Földszint", 350, this);
     }
-
+/*
 	// Hiedelem: oravan(melyiknap,melyikterem,hanyorakor,hanyember)
     private void initHiedelmek() {
-    	addPercept("manager",Literal.parseLiteral(
-    			"szabad[source(tak_Mari),source(tak_Bea),source(tak_Lali),source(tak_Izolda),source(tak_Zsombor)]"));
+    	addPercept("manager",Literal.parseLiteral("szabad[source(tak_Mari),source(tak_Bea),source(tak_Lali),source(tak_Izolda),source(tak_Zsombor)]"));
     	addPercept("manager",Literal.parseLiteral("ebedszunet(13.25)"));
     	addPercept("manager",Literal.parseLiteral("esosido(2)"));
     	addPercept("manager",Literal.parseLiteral("esosido(3)"));
     	
-    	ArrayList<Terem> termek = em.getTermek();
-    	for (Terem t: termek){
-    		
-    	}
+    	em.addPercepts();
     	
 	}
-
+*/
 	@Override
     public boolean executeAction(String agName, Structure action) {
     	if(action.getFunctor().equals("printResult")){
