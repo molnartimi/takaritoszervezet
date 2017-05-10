@@ -1,0 +1,18 @@
+MAS takaritoszervezet {
+
+	infrastructure: Centralised
+
+	environment: takaritoszervezet.Epulet
+
+	agents:
+		manager;
+		sensor;
+		tak_Bea cleaner;
+		tak_Izolda cleaner;
+		tak_Lali cleaner;
+		tak_Mari cleaner;
+		tak_Zsombor cleaner;
+
+	aslSourcePath:
+		"src/asl";
+}
