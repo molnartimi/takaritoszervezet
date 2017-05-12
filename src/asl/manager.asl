@@ -62,7 +62,8 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 +!start : true <- .print("1. NAP"); 
 				  !work(1,7.75).
 
-+!work(N,T) : T<16 <- .print(T); 
++!work(N,T) : T<16 <- .print(T);
+			  idoKiiras(N,T);
 			  .send(sensor,achieve,count(N,T));
 			  !koszosodas(N,T); 
 			  !feladatotad(N,T); 
@@ -70,13 +71,16 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 			  !work(N,T+0.5).
 			  
 +!work(N,T) : T>16 & N<3 <- .print("Szép munka, viszlát holnap!"); 
+						 	napvege;
 							.wait(3000); 
 							.print(N+1,". NAP");
 							!work(N+1,7.75).
 							
-+!work(N,T) : N==3 <- .print("Kellemes hétvégét mindenkinek!").
++!work(N,T) : N==3 <- .print("Kellemes hétvégét mindenkinek!");
+					  hetvege.
 
-+!feladatotad(N,T) : ebedszunet(T) <- .print("Ebédszünet van, nem kell dolgozni.").
++!feladatotad(N,T) : ebedszunet(T) <- .print("Ebédszünet van, nem kell dolgozni.");
+									  ebed.
 +!feladatotad(N,T) : not ebedszunet(T) <- !felmosas(N,T);
 										  !kukaurites(N,T);
 										  !mosdotisztitas(T).
@@ -87,10 +91,13 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 						  C="IB28"; ?felmosasota(C,Z); !teremfelmosas(N,C,T,Z);
 						  ?folyosonfelmosasota(F); !folyosofelmosas(F,T).
 
-+!teremfelmosas(N,A,T,X) : konferencia(N,A,T) | konferencia(N,A,T-0.5) | konferencia(N,A,T-1) <- .print(A,"-ban most konferencia van.").				
-+!teremfelmosas(N,A,T,X) : oravan(N,A,T,Q) | oravan(N,A,T-0.5,Q) | oravan(N,A,T-1,Q) <- .print(A,"-ban most óra van.").
++!teremfelmosas(N,A,T,X) : konferencia(N,A,T) | konferencia(N,A,T-0.5) | konferencia(N,A,T-1) <- .print(A,"-ban most konferencia van.");
+																								 konferencia(A).				
++!teremfelmosas(N,A,T,X) : oravan(N,A,T,Q) | oravan(N,A,T-0.5,Q) | oravan(N,A,T-1,Q) <- .print(A,"-ban most óra van."); 
+																						oravan(A,Q).
 +!teremfelmosas(N,A,T,X) : X>=200 <- -felmosasota(A,X);
 									 !kivalaszt(E); 
+									 felmosat(E,A);
 									 .send(E,achieve,mossfel(A)).
 +!teremfelmosas(N,A,T,X) : konferencia(N,A,T+0.5) <- -felmosasota(A,X);
 													 !kivalaszt(E);
@@ -147,7 +154,6 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 									     ?felmosasota(A,X); -felmosasota(A,X); +felmosasota(A,X+B);
 									     ?kukauritesota(A,Y); -kukauritesota(A,Y); +kukauritesota(A,Y+B);
 									     ?folyosonfelmosasota(F); !folyosokoszosodik(N,F,B).
-									     //?folyosonfelmosasota(F); -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
 
 +!koszosodik(N,A,T) : not oravan(N,A,T,B).
 
