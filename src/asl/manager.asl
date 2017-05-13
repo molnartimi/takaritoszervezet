@@ -101,38 +101,49 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 									 .send(E,achieve,mossfel(A)).
 +!teremfelmosas(N,A,T,X) : konferencia(N,A,T+0.5) <- -felmosasota(A,X);
 													 !kivalaszt(E);
+													 felmosat(E,A);
 													 .send(E,achieve,mindenkeppmossfel(A)).
 +!teremfelmosas(N,A,T,X) : true.
 
-+!folyosofelmosas(F,T) : uresfolyoso & F>=300 <- -folyosonfelmosasota(F); !kivalaszt(E); .send(E,achieve,mossfel("folyoso")).	// TODO sorsolhatunk ide több embert, ha akarunk
-+!folyosofelmosas(F,T) : T==7.75 <- -folyosonfelmosasota(F); !kivalaszt(E); .send(E,achieve,mindenkeppmossfel("folyoso")).
-+!folyosofelmosas(F,T) : not uresfolyoso .//<- .print("A folyosó most tele van").
++!folyosofelmosas(F,T) : uresfolyoso & F>=200 <- -folyosonfelmosasota(F);
+												 !kivalaszt(E);
+												 felmosat(E,"folyoso");
+												 .send(E,achieve,mossfel("folyoso")).	// TODO sorsolhatunk ide több embert, ha akarunk
++!folyosofelmosas(F,T) : T==7.75 <- -folyosonfelmosasota(F);
+									!kivalaszt(E); 
+									felmosat(E,"folyoso");
+									.send(E,achieve,mindenkeppmossfel("folyoso")).
 +!folyosofelmosas(F,T) : true.
 
 // 2. FELADAT: kukaürítés
 // TODO csinálhatná az, aki amúgy is bement a terembe?
 +!kukaurites(N,T) : true <- A="IB26"; ?kukauritesota(A,X); !kukaurites(N,A,T,X);
 						    B="IB27"; ?kukauritesota(B,Y); !kukaurites(N,B,T,Y);
-						    C="IB28"; ?kukauritesota(C,Z); !kukaurites(N,C,T,Z);
-						    !kukauritesfolyoson(T).  // kukaürítés folyosón függvénye annak, hogy sokan vannak-e ott?
+						    C="IB28"; ?kukauritesota(C,Z); !kukaurites(N,C,T,Z).
+						    //!kukauritesfolyoson(T).  // kukaürítés folyosón függvénye annak, hogy sokan vannak-e ott?
 						    						 // PL menjünk minden páros óra 15-kor
 						
 +!kukaurites(N,A,T,X) : not oravan(N,A,T,Q) & not oravan(N,A,T-0.5,Q) & not oravan(N,A,T-1,Q) & X>=300 &
 						not konferencia(N,A,T) & not konferencia(N,A,T-0.5) & not konferencia(N,A,T-1) <- !kivalaszt(E); 
 																										  -kukauritesota(A,X);
+																										  kukaturit(E,A);
 																									  	  .send(E,achieve,uritskukat(A)).
 +!kukaurites(N,A,T,X) : true.
 
-+!kukauritesfolyoson(T) : (T div 1 mod 2)==0 & T-(T div 1)==0.25 <- !kivalaszt(E); .send(E,achieve,uritskukat("folyoso")).
+/* +!kukauritesfolyoson(T) : (T div 1 mod 2)==0 & T-(T div 1)==0.25 <- !kivalaszt(E);
+ 																	kukaturit(E,"folyoso");
+																	.send(E,achieve,uritskukat("folyoso")).
 +!kukauritesfolyoson(T) : true.
-
+*/
 
 // 3. FELADAT: mosdótisztítás
-// egyedül páratalan óra 45-kor nem mehetek mosdót takarítani, akkor kezdõdik a szünet az órák között
 // PL : menjünk minden páros óra 45-kor						
 //+!mosdotisztitas(T) : (T div 1 mod 2)==1 & T-(T div 1)==0.75 <- .print("Óraközi szünetben nem takarítunk mosdót.").
-+!mosdotisztitas(T) : (T div 1 mod 2)==0 & T-(T div 1)==0.75 <- !kivalaszt(E); .send(E,achieve,tisztitsmosdot).	// TODO sorsolhatunk ide több embert, ha akarunk
-+!mosdotisztitas(T) : true.
++!mosdotisztitas(T) : ((T div 1 mod 2)==1 & T-(T div 1)==0.25) |
+					  ((T div 1 mod 2)==0 & T-(T div 1)==0). // !!! páratalan óra 45-kor, és páros órakor nem mehetek mosdót takarítani, akkor szünet van az órák között
++!mosdotisztitas(T) : true <- !kivalaszt(E);
+							  mosdottisztit(E);
+							  .send(E,achieve,tisztitsmosdot).
 
 
 // ki csinálja meg a feladatot?
@@ -151,14 +162,14 @@ oravan(3,"IB26",10.25,30). //30 hallgató
 							C="IB26"; !koszosodik(N,C,T).
 								   
 +!koszosodik(N,A,T) : oravan(N,A,T,B) <- ?oravan(N,A,T,B);
-									     ?felmosasota(A,X); -felmosasota(A,X); +felmosasota(A,X+B);
-									     ?kukauritesota(A,Y); -kukauritesota(A,Y); +kukauritesota(A,Y+B);
+									     ?felmosasota(A,X); -felmosasota(A,X); +felmosasota(A,X+B); koszosodik(A,X+B);
+									     ?kukauritesota(A,Y); -kukauritesota(A,Y); +kukauritesota(A,Y+B); kukatelik(A,Y+B);
 									     ?folyosonfelmosasota(F); !folyosokoszosodik(N,F,B).
 
 +!koszosodik(N,A,T) : not oravan(N,A,T,B).
 
-+!folyosokoszosodik(N,F,B) : esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+2*B).
-+!folyosokoszosodik(N,F,B) : not esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+B).
++!folyosokoszosodik(N,F,B) : esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+2*B); koszosodik("folyoso",F+2*B).
++!folyosokoszosodik(N,F,B) : not esosido(N) <- -folyosonfelmosasota(F); +folyosonfelmosasota(F+B); koszosodik("folyoso",F+B).
 +!folyosokoszosodik(N,F,B) : true.
 								   
 

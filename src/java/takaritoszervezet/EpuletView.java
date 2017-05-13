@@ -88,8 +88,52 @@ public class EpuletView extends GridWorldView {
 	}
 	
 	// TODO valakit elküldtek felmosni
+	// terem értéke "IB26", "IB27", "IB28" vagy "folyoso"
+	// (ezt a függvényt hívja a sima felmosáshoz, és konferencia elõtti muszály felmosáshoz is)
+	// (megcsinálhatjuk két külnbözõ függvényben is, ha máshogy szeretnétek a kettõt ábrázolni)
 	public void felmos(String ember, String terem) {
 		
+		
+	}
+	
+	// TODO valakit elküld kukát üríteni
+	// terem értéke "IB26", "IB27", "IB28" vagy "folyoso"
+	public void kukaturit(String ember, String terem) {
+		
+		
+	}
+
+	// TODO mosdót tisztít valaki
+	// jelenlegi logika szerint mindig elküldünk valakit mosdót tisztítani,
+	// kivéve szünetek alatt: páratlan óra 45-kor, és páros óra egészkor
+	// szerintem egyszerûség kedvéért randomoljunk, a 6 közül melyik mosdóba menjen takarítani
+	// nincs lekódolva, mikor lesz ténylegesen koszos, szerintem a mosdókat ne színezzük
+	// (de csak a lustaság mondatja velem, szóval mondjátok, ha szeretnétek)
+	public void mosdottisztit(String ember) {
+		
+	}
+	
+	// TODO kipirosítani a helyszínt
+	// terem értéke "IB26", "IB27", "IB28" vagy "folyoso"
+	// megbeszéltek szerint, ha 200nál többen járták már össze a helyet,
+	// 0.7 valószínûséggel koszosodik be
+	// ezt az Epulet.java-ban lekódoltam, akkor hívja ezt a függvényt, ha már tényleg koszos
+	public void koszoslett(String terem) {
+		
+	}
+	
+	// TODO telinek jelölni a kukákat a helyszínen
+	// terem értéke "IB26", "IB27", "IB28"
+	// kihagyhatjuk a folyosón a kukaürítést? egyenlõre kikommenteztem a kódból
+	// ha 300nál többen voltak már a teremben,
+	// 0.4 valószínûséggel telik meg
+	// ezt az Epulet.java-ban lekódoltam, akkor hívja ezt a függvényt, ha már tényleg teli
+	public void telekuka(String terem) {
+		
+	}
+	
+	// TODO ez az ágens megint szabad
+	public void szabad(String agName) {
 		
 	}
 
