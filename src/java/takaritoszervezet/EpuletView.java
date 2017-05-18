@@ -1,4 +1,6 @@
 package takaritoszervezet;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -27,14 +29,29 @@ public class EpuletView extends GridWorldView {
     public void initComponents(int width) {
 		super.initComponents(width);
 		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
         //panel.setLayout((LayoutManager) new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setLayout(new GridLayout(6,6));
+		JPanel pan= new JPanel();
+		pan.setLayout(new GridLayout(6,6));
+		label = new JLabel("");
+        
+        panel.add(new JLabel("Hello GUI"),BorderLayout.NORTH);
+        panel.add(label);
+        
+        for(int i=0; i<36; i++){
+			JPanel p= new JPanel();
+			if(i%2==0)
+				p.setBackground(Color.WHITE);
+			else
+				p.setBackground(Color.GRAY);
+			JLabel l = new JLabel(Integer.toString(i));
+			p.add(l);
+			pan.add(p);
+		}
+        panel.add(pan, BorderLayout.SOUTH);
         setContentPane(panel);
         
-        label = new JLabel("");
         
-        panel.add(new JLabel("Hello GUI"));
-        panel.add(label);
         
         
 	}
