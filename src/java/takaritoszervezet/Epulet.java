@@ -54,6 +54,7 @@ public class Epulet extends Environment {
 		}
 		if(functor.equals("konferencia")){
 			String args = command.substring(command.indexOf("(")+1,command.indexOf(")"));
+			args=args.substring(1,args.length()-1);
 			view.konferencia(args);
 			return true;
 		}
